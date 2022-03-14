@@ -1,12 +1,12 @@
 
-var arr = Array.from({length: 31}, () => Math.round(Math.random()));
-var arr1 = Array.from({length: 31}, () => Math.round(Math.random()));
+var arrX = Array.from({length: 31}, () => Math.round(Math.random()));
+var arrY = Array.from({length: 31}, () => Math.round(Math.random()));
 var angle = 0;
 var speed = 0.0005;
 
 
 function setup() {
-  createCanvas(680, 680);
+  createCanvas(700, 700);
   background(220);
   grid();
   
@@ -15,13 +15,13 @@ function setup() {
 function draw() {
   if(dohorizontal){
     horizontal();
-  }  else if(dovertical) {
-    vertical();
-  } else if(docoloring) {
-    coloring();
-  } else {
-    stop();
-  }
+  }  // else if(dovertical) {
+  //   vertical();
+  // } else if(docoloring) {
+  //   coloring();
+  // } else {
+  //   stop();
+  // }
 }
 
 function clearCanvas() {
@@ -34,7 +34,7 @@ function grid() {
   let x = 0;
   for (var i = 60; i < width - 20; i += 20) {
     x = (i-60)/20;
-    text(arr[x], i, height  - 20);
+    text(arrX[x], i, height  - 20);
   }
 
   line(40, 20, 40, height - 40);
@@ -44,8 +44,8 @@ function grid() {
   line(40, 20, height - 20, 20);
 
   for (var j = height - 60; j > 20 ; j -= 20) {
-    x = Math.abs((j- (height - 40))/20);
-    text(arr1[x], 20, j);
+    x = Math.abs((j - (height - 60))/20);
+    text(arrY[x], 20, j);
   }
   
 }
@@ -65,17 +65,16 @@ function animateLine(x, y, x1, y1) {
 
 function horizontal() {
   let x = 0;
-  for (var j = height - 60; j > 20 ; j -= 20) {
+  for (let j = height - 60; j > 20 ; j -= 20) {
     x = Math.abs((j- (height - 60))/20);
-
-    if(arr1[x] === 0) {
-      for (var i = 60; i < width - 20; i += 40) {
+    if(arr[x] === 0) {
+      for (let i = 60; i < width - 20; i += 40) {
         animateLine(i, j, i + 20, j);
       }
     }
 
-    if(arr1[x] === 1) {
-      for (var i = 40; i < width - 20; i += 40) {
+    if(arr[x] === 1) {
+      for (let i = 40; i < width - 20; i += 40) {
         animateLine(i, j, i + 20, j);
       }
     }
@@ -88,13 +87,13 @@ function vertical() {
   for (var i = 60; i < width - 20; i += 20) {
     x = (i-60)/20;
 
-    if(arr[x] === 0) {
+    if(arrY[x] === 0) {
       for (var j = height - 60; j > 20 ; j -= 40) {
         animateLine(i, j, i, j - 20);
       }
     }
 
-    if(arr[x] === 1) {
+    if(arrY[x] === 1) {
       for (var j = height - 40; j > 20 ; j -= 40) {
         animateLine(i, j, i, j - 20);
       }
@@ -104,5 +103,15 @@ function vertical() {
 }
 
 function coloring() {
-  
+  let x = 0;
+  let sumV = 0;
+  for (var j = height - 60; j > 20 ; j -= 20) {
+    x = Math.abs((j- (height - 60))/20);
+    sumV += arr1[x];
+
+    for (var i = 40; i < width - 20; i += 40) {
+      animateLine(i, j, i + 20, j);
+    }
+
+  }
 }

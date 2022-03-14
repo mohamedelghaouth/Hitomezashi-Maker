@@ -15,9 +15,9 @@ function setup() {
 function draw() {
   if(dohorizontal){
     horizontal();
-  }  // else if(dovertical) {
-  //   vertical();
-  // } else if(docoloring) {
+  }   else if(dovertical) {
+    vertical();
+  } // else if(docoloring) {
   //   coloring();
   // } else {
   //   stop();
@@ -67,13 +67,13 @@ function horizontal() {
   let x = 0;
   for (let j = height - 60; j > 20 ; j -= 20) {
     x = Math.abs((j- (height - 60))/20);
-    if(arr[x] === 0) {
+    if(arrY[x] === 0) {
       for (let i = 60; i < width - 20; i += 40) {
         animateLine(i, j, i + 20, j);
       }
     }
 
-    if(arr[x] === 1) {
+    if(arrY[x] === 1) {
       for (let i = 40; i < width - 20; i += 40) {
         animateLine(i, j, i + 20, j);
       }
@@ -87,13 +87,13 @@ function vertical() {
   for (var i = 60; i < width - 20; i += 20) {
     x = (i-60)/20;
 
-    if(arrY[x] === 0) {
+    if(arrX[x] === 0) {
       for (var j = height - 60; j > 20 ; j -= 40) {
         animateLine(i, j, i, j - 20);
       }
     }
 
-    if(arrY[x] === 1) {
+    if(arrX[x] === 1) {
       for (var j = height - 40; j > 20 ; j -= 40) {
         animateLine(i, j, i, j - 20);
       }

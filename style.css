@@ -1,16 +1,52 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 canvas {
   display: block;
-  margin: auto;
   padding: 20px;
 }
 
-#main {
+.main {
   display: block;
   margin: auto;
+  position: fixed;
+  top: 50px;
 }
 
+#title {
+  display: block;
+  padding: 3rem;
+  position: sticky;
+  top: 0px;
+  background-color: white;
+}
+
+#content {
+  display: block;
+  margin: auto;
+  position: static;
+  top: 20px;
+}
+
+#buttons {
+  display: block;
+  padding-left: 20px;
+}
+
+.button-small {
+  font-size: .9rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
+  padding: 0 1rem;
+}
+
+#container {
+  /* margin: 0 auto; */
+  /* max-width: 112rem; */
+  padding: 0 2rem;
+  position: relative;
+  width: 100%;
+}

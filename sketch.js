@@ -2,11 +2,12 @@
 var arrX = Array.from({length: 31}, () => Math.round(Math.random()));
 var arrY = Array.from({length: 31}, () => Math.round(Math.random()));
 var angle = 0;
-var speed = 0.0005;
+var coloringadvance= 0;
+var speed = 0.005;
 
 
 function setup() {
-  createCanvas(700, 700);
+  createCanvas(500, 500).parent("sketch");;
   background(220);
   grid();
   
@@ -17,11 +18,13 @@ function draw() {
     horizontal();
   }   else if(dovertical) {
     vertical();
-  } // else if(docoloring) {
-  //   coloring();
-  // } else {
-  //   stop();
-  // }
+  } else if(docoloring) {
+    coloring();
+    horizontal();
+    vertical();
+  } else if(doscoring) {
+    scoring();
+  } 
 }
 
 function clearCanvas() {
@@ -104,14 +107,86 @@ function vertical() {
 
 function coloring() {
   let x = 0;
+  let y = 0;
+  let sumH = 0;
   let sumV = 0;
-  for (var j = height - 60; j > 20 ; j -= 20) {
-    x = Math.abs((j- (height - 60))/20);
-    sumV += arr1[x];
+  let tmpArrX = [];
+  tmpArrX.push(sumH);
+  for (var i = 60; i <= width - 20; i += 20) {
+    x = (i-60)/20;
+    animatedColoringRect(sumH, i - 20, height - 60, 20, 20);
+    sumH = ((sumH + arrX[x]) % 2);
+    // coloring
+    tmpArrX.push(sumH);
+  }
 
-    for (var i = 40; i < width - 20; i += 40) {
-      animateLine(i, j, i + 20, j);
+  for (var i = 60; i <= width - 20; i += 20) {
+    x = (i-60)/20;
+    sumV = tmpArrX[x];
+    for (var j = height - 60; j >= 20 ; j -= 20) {
+      animatedColoringRect(sumV, i - 20, j, 20, 20);
+      y = Math.abs((j - (height - 60))/20);
+      let tmp = i/20;
+      if(((tmp % 2) === 0) && (arrY[y] === 0)){
+        sumV = ((sumV + 1) % 2);
+      }
+
+      if(((tmp % 2) === 1) && (arrY[y] === 1)){
+        sumV = ((sumV + 1) % 2);
+      }
     }
+  }
+  
+}
 
+function animatedColoringRect(sum, x1, y1, x2, y2) {
+  let tempY = map(coloringadvance, 0, y1, 0,  y2, 1);
+  push()
+  if(sum === 0){
+    stroke(255,204,255)
+    fill(255,204,255);
+  } else {
+    stroke(255,204,153)
+    fill(255,204,153);
+  }
+  rect(x1, y1, x2, tempY);
+  pop();
+  coloringadvance += 0.5;
+}
+
+function scoring() {
+  let x = 0;
+  let y = 0;
+  let sumH = 0;
+  let sumV = 0;
+  let tmpArrX = [];
+  text(sumH, 45 , height  - 45);
+  tmpArrX.push(sumH);
+  for (var i = 60; i < width - 20; i += 20) {
+
+    x = (i-60)/20;
+    sumH = ((sumH + arrX[x]) % 2);
+
+    // coloring
+
+    text(sumH, i + 5 , height  - 45);
+    tmpArrX.push(sumH);
+  }
+
+  for (var i = 60; i <= width - 20; i += 20) {
+    x = (i-60)/20;
+    sumV = tmpArrX[x];
+    for (var j = height - 60; j > 20 ; j -= 20) {
+      y = Math.abs((j - (height - 60))/20);
+      let tmp = i/20;
+      if(((tmp % 2) === 0) && (arrY[y] === 0)){
+        sumV = ((sumV + 1) % 2);
+      }
+
+      if(((tmp % 2) === 1) && (arrY[y] === 1)){
+        sumV = ((sumV + 1) % 2);
+      }
+      text(sumV, i - 15, j - 5);
+    }
   }
 }

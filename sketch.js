@@ -2,15 +2,29 @@
 var arrX = Array.from({length: 31}, () => Math.round(Math.random()));
 var arrY = Array.from({length: 31}, () => Math.round(Math.random()));
 var angle = 0;
-var coloringadvance= 0;
-var speed = 0.005;
+var coloringadvance= 0.005;
+var speed = 0.5;
+
+
+
+var maxX = 0;
+var minX = 60;
+var maxY = 0;
+var minY = 20;
+var numb = 0;
+
+var step = 40;
 
 
 function setup() {
-  createCanvas(500, 500).parent("sketch");;
+  createCanvas(500, 500).parent("sketch");
+  numb = Math.floor((height - 60)/step);
+  maxX = 40 + numb*step;
+  minX = 40;
+  maxY = height - 40;
+  minY = height - 40 - numb*step;
   background(220);
   grid();
-  
 }
 
 function draw() {
@@ -19,12 +33,10 @@ function draw() {
   }   else if(dovertical) {
     vertical();
   } else if(docoloring) {
-    coloring();
+    coloring(doscoring);
     horizontal();
     vertical();
-  } else if(doscoring) {
-    scoring();
-  } 
+  }
 }
 
 function clearCanvas() {
@@ -34,21 +46,20 @@ function clearCanvas() {
 
 
 function grid() {
-  let x = 0;
-  for (var i = 60; i < width - 20; i += 20) {
-    x = (i-60)/20;
-    text(arrX[x], i, height  - 20);
+  for (var i = 1; i <numb; i += 1) {
+    text(arrX[i], i*step + 40, maxY + 20);
   }
+  
+  // vertical lines
+  line(minX, minY, minX, maxY);
+  line(maxX, minY, maxX, maxY);
 
-  line(40, 20, 40, height - 40);
-  line(width  - 20, 20, width  - 20, height - 40);
+  // horizontal  lines
+  line(minX, minY, maxX, minY);
+  line(minX, maxY, maxX, maxY);
 
-  line(width  - 20, height - 40, 40, height - 40);
-  line(40, 20, height - 20, 20);
-
-  for (var j = height - 60; j > 20 ; j -= 20) {
-    x = Math.abs((j - (height - 60))/20);
-    text(arrY[x], 20, j);
+  for (var j = 1; j <numb; j += 1) {
+    text(arrY[j], minX - 20, maxY - j*step);
   }
   
 }
@@ -67,72 +78,79 @@ function animateLine(x, y, x1, y1) {
 }
 
 function horizontal() {
-  let x = 0;
-  for (let j = height - 60; j > 20 ; j -= 20) {
-    x = Math.abs((j- (height - 60))/20);
-    if(arrY[x] === 0) {
-      for (let i = 60; i < width - 20; i += 40) {
-        animateLine(i, j, i + 20, j);
+  let tmpy = 0;
+  let tmpx = 0;
+  for (let j = 1; j <numb; j += 1) {
+    tmpy = maxY - j*step
+    if(arrY[j] === 0) {
+      for (let i = 1; i <numb; i += 2) {
+        tmpx = minX + i*step;
+        animateLine(tmpx, tmpy, tmpx + step, tmpy);
       }
     }
 
-    if(arrY[x] === 1) {
-      for (let i = 40; i < width - 20; i += 40) {
-        animateLine(i, j, i + 20, j);
+    if(arrY[j] === 1) {
+      for (let i = 0; i <numb; i += 2) {
+        tmpx = minX + i*step;
+        animateLine(tmpx, tmpy, tmpx + step, tmpy);
       }
     }
-
   }
 }
 
 function vertical() {
-  let x = 0;
-  for (var i = 60; i < width - 20; i += 20) {
-    x = (i-60)/20;
-
-    if(arrX[x] === 0) {
-      for (var j = height - 60; j > 20 ; j -= 40) {
-        animateLine(i, j, i, j - 20);
+  let tmpy = 0;
+  let tmpx = 0;
+  for (let i = 1; i <numb; i += 1) {
+    tmpx = i*step + 40;
+    if(arrX[i] === 0) {
+      for (let j = 1; j <numb; j += 2) {
+        tmpy = maxY - j*step - 40
+        animateLine(tmpx, tmpy, tmpx, tmpy + step);
       }
     }
 
-    if(arrX[x] === 1) {
-      for (var j = height - 40; j > 20 ; j -= 40) {
-        animateLine(i, j, i, j - 20);
+    if(arrX[i] === 1) {
+      for (let j = 0; j <numb; j += 2) {
+        tmpy = maxY - j*step - 40
+        animateLine(tmpx, tmpy, tmpx, tmpy + step);
       }
     }
-
   }
 }
 
-function coloring() {
-  let x = 0;
-  let y = 0;
+function coloring(showScore) {
   let sumH = 0;
   let sumV = 0;
   let tmpArrX = [];
+  let tmpy = 0;
+  let tmpx = 0;
   tmpArrX.push(sumH);
-  for (var i = 60; i <= width - 20; i += 20) {
-    x = (i-60)/20;
-    animatedColoringRect(sumH, i - 20, height - 60, 20, 20);
-    sumH = ((sumH + arrX[x]) % 2);
-    // coloring
+  for (var i = 0; i <numb; i += 1) {
+    tmpx = i*step + 40;
+    animatedColoringRect(sumH, tmpx, maxY - step, step, step);
+    if(showScore) {
+      text(sumH, tmpx + 15 , maxY - 5);
+    }
+    sumH = ((sumH + arrX[i + 1]) % 2);
     tmpArrX.push(sumH);
   }
 
-  for (var i = 60; i <= width - 20; i += 20) {
-    x = (i-60)/20;
-    sumV = tmpArrX[x];
-    for (var j = height - 60; j >= 20 ; j -= 20) {
-      animatedColoringRect(sumV, i - 20, j, 20, 20);
-      y = Math.abs((j - (height - 60))/20);
-      let tmp = i/20;
-      if(((tmp % 2) === 0) && (arrY[y] === 0)){
+  for (var i = 0; i <numb; i += 1) {
+    tmpx = i*step + 40;
+    sumV = tmpArrX[i];
+    for (var j = 1; j <numb; j += 1) {
+      tmpy = maxY - (j)*step - 40
+      if(((i % 2) === 1) && (arrY[j] === 0)){
         sumV = ((sumV + 1) % 2);
       }
 
-      if(((tmp % 2) === 1) && (arrY[y] === 1)){
+      if(((i % 2) === 0) && (arrY[j] === 1)){
         sumV = ((sumV + 1) % 2);
+      }
+      animatedColoringRect(sumV, tmpx, tmpy, step, step);
+      if(showScore) {
+        text(sumV, tmpx + 15 , tmpy + 25);
       }
     }
   }
@@ -152,41 +170,4 @@ function animatedColoringRect(sum, x1, y1, x2, y2) {
   rect(x1, y1, x2, tempY);
   pop();
   coloringadvance += 0.5;
-}
-
-function scoring() {
-  let x = 0;
-  let y = 0;
-  let sumH = 0;
-  let sumV = 0;
-  let tmpArrX = [];
-  text(sumH, 45 , height  - 45);
-  tmpArrX.push(sumH);
-  for (var i = 60; i < width - 20; i += 20) {
-
-    x = (i-60)/20;
-    sumH = ((sumH + arrX[x]) % 2);
-
-    // coloring
-
-    text(sumH, i + 5 , height  - 45);
-    tmpArrX.push(sumH);
-  }
-
-  for (var i = 60; i <= width - 20; i += 20) {
-    x = (i-60)/20;
-    sumV = tmpArrX[x];
-    for (var j = height - 60; j > 20 ; j -= 20) {
-      y = Math.abs((j - (height - 60))/20);
-      let tmp = i/20;
-      if(((tmp % 2) === 0) && (arrY[y] === 0)){
-        sumV = ((sumV + 1) % 2);
-      }
-
-      if(((tmp % 2) === 1) && (arrY[y] === 1)){
-        sumV = ((sumV + 1) % 2);
-      }
-      text(sumV, i - 15, j - 5);
-    }
-  }
 }

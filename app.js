@@ -25,7 +25,7 @@ starCbuttton.addEventListener("click", function() {
 });
 
 starSbuttton.addEventListener("click", function() {
-    setbools(false, false, false, true)
+    setbools(false, false, true, true)
 });
 
 

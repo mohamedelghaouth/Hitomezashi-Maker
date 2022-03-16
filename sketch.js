@@ -1,6 +1,6 @@
 
-var arrX = Array.from({length: 31}, () => Math.round(Math.random()));
-var arrY = Array.from({length: 31}, () => Math.round(Math.random()));
+var arrX = Array.from({length: 100}, () => Math.round(Math.random()));
+var arrY = Array.from({length: 100}, () => Math.round(Math.random()));
 var angle = 0;
 var coloringadvance= 0.005;
 var speed = 0.5;
@@ -13,7 +13,7 @@ var maxY = 0;
 var minY = 20;
 var numb = 0;
 
-var step = 40;
+var step = 30;
 
 
 function setup() {
@@ -105,14 +105,14 @@ function vertical() {
     tmpx = i*step + 40;
     if(arrX[i] === 0) {
       for (let j = 1; j <numb; j += 2) {
-        tmpy = maxY - j*step - 40
+        tmpy = maxY - (j + 1)*step
         animateLine(tmpx, tmpy, tmpx, tmpy + step);
       }
     }
 
     if(arrX[i] === 1) {
       for (let j = 0; j <numb; j += 2) {
-        tmpy = maxY - j*step - 40
+        tmpy = maxY - (j + 1)*step
         animateLine(tmpx, tmpy, tmpx, tmpy + step);
       }
     }
@@ -129,8 +129,8 @@ function coloring(showScore) {
   for (var i = 0; i <numb; i += 1) {
     tmpx = i*step + 40;
     animatedColoringRect(sumH, tmpx, maxY - step, step, step);
-    if(showScore) {
-      text(sumH, tmpx + 15 , maxY - 5);
+    if(showScore && (step >= 20)) {
+      text(sumH, tmpx + (step/2) , maxY - (step/2));
     }
     sumH = ((sumH + arrX[i + 1]) % 2);
     tmpArrX.push(sumH);
@@ -140,7 +140,7 @@ function coloring(showScore) {
     tmpx = i*step + 40;
     sumV = tmpArrX[i];
     for (var j = 1; j <numb; j += 1) {
-      tmpy = maxY - (j)*step - 40
+      tmpy = maxY - (j + 1)*step
       if(((i % 2) === 1) && (arrY[j] === 0)){
         sumV = ((sumV + 1) % 2);
       }
@@ -149,8 +149,8 @@ function coloring(showScore) {
         sumV = ((sumV + 1) % 2);
       }
       animatedColoringRect(sumV, tmpx, tmpy, step, step);
-      if(showScore) {
-        text(sumV, tmpx + 15 , tmpy + 25);
+      if(showScore && (step >= 20)) {
+        text(sumV, tmpx + (step/2) , tmpy + (step/2));
       }
     }
   }

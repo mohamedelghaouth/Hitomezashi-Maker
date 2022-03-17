@@ -13,9 +13,6 @@ var maxY = 0;
 var minY = 20;
 var numb = 0;
 
-var step = 30;
-
-
 function setup() {
   createCanvas(500, 500).parent("sketch");
   numb = Math.floor((height - 60)/step);
@@ -30,10 +27,12 @@ function setup() {
 function draw() {
   if(dohorizontal){
     horizontal();
-  }   else if(dovertical) {
+  } 
+   if(dovertical) {
     vertical();
-  } else if(docoloring) {
-    coloring(doscoring);
+  } 
+   if(docoloring || doscoring) {
+    coloring(docoloring, doscoring);
     horizontal();
     vertical();
   }
@@ -41,7 +40,10 @@ function draw() {
 
 function clearCanvas() {
   clear();
-  loop()
+  setup();
+  horizontal();
+  vertical();
+  loop();
 }
 
 
@@ -119,7 +121,7 @@ function vertical() {
   }
 }
 
-function coloring(showScore) {
+function coloring(showColor, showScore) {
   let sumH = 0;
   let sumV = 0;
   let tmpArrX = [];
@@ -128,7 +130,10 @@ function coloring(showScore) {
   tmpArrX.push(sumH);
   for (var i = 0; i <numb; i += 1) {
     tmpx = i*step + 40;
-    animatedColoringRect(sumH, tmpx, maxY - step, step, step);
+    if(showColor) {
+      animatedColoringRect(sumH, tmpx, maxY - step, step, step);
+    } 
+
     if(showScore && (step >= 20)) {
       text(sumH, tmpx + (step/2) , maxY - (step/2));
     }
@@ -148,7 +153,10 @@ function coloring(showScore) {
       if(((i % 2) === 0) && (arrY[j] === 1)){
         sumV = ((sumV + 1) % 2);
       }
-      animatedColoringRect(sumV, tmpx, tmpy, step, step);
+      if(showColor) {
+        animatedColoringRect(sumV, tmpx, tmpy, step, step);
+      } 
+
       if(showScore && (step >= 20)) {
         text(sumV, tmpx + (step/2) , tmpy + (step/2));
       }
@@ -160,7 +168,10 @@ function coloring(showScore) {
 function animatedColoringRect(sum, x1, y1, x2, y2) {
   let tempY = map(coloringadvance, 0, y1, 0,  y2, 1);
   push()
-  if(sum === 0){
+  if(sum === 2){
+    stroke(220,220,220)
+    fill(220,220,220);
+  } else if(sum === 0){
     stroke(255,204,255)
     fill(255,204,255);
   } else {

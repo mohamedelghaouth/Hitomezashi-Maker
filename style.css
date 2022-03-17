@@ -6,7 +6,7 @@ html, body {
 
 canvas {
   display: block;
-  padding: 20px;
+  padding: 10px;
 }
 
 .main {
@@ -40,13 +40,60 @@ canvas {
   font-size: .9rem;
   height: 2.8rem;
   line-height: 2.8rem;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 #container {
+  display: contents;
+}
+
+#tickmarks {
   /* margin: 0 auto; */
   /* max-width: 112rem; */
   padding: 0 2rem;
   position: relative;
   width: 100%;
 }
+
+#rangeLabel {
+  font-size:26px;
+  font-weight:600;
+  font-family: Open Sans;
+  padding-right:30px;
+  color:#7E6D57;
+}
+
+.slider {
+  height:20px;
+  padding-left: 40px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+ }
+ .slider p {
+  font-size:16px;
+  font-weight:600;
+  font-family: Open Sans;
+  padding-left:30px;
+  color:#7E6D57;
+ }
+ .slider input[type=”range”] {
+  -webkit-appearance:none !important;
+  width:420px;
+  height:2px;
+  background:#7E6D57;
+  border:none;
+  outline:none;
+ }
+ .slider input[type=”range”]::-webkit-slider-thumb {
+  -webkit-appearance:none !important;
+  width:30px;
+  height:30px;
+  background:#fcfcfc;
+  border:2px solid #7E6D57;
+  border-radius:50%;
+  cursor:pointer;
+ }
+ .slider input[type=”range”]::-webkit-slider-thumb:hover {
+  background:#7E6D57;
+ }

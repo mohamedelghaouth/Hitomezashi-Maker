@@ -49,13 +49,19 @@
         </div>
         <div class="column">
           <div class="main">
+            <div class="slider">
+              <p id="rangeLabel">step</p>
+              <input type="range" min="20" max="80" value="40" class="slider" step="20" id="myRange">
+              <p id="rangeValue"><span id="demo"></span></p>
+            </div>
             <div id="sketch"></div>
             <div>
               <div id="buttons">
                 <button id="horizontal" class="center  button-outline button-small">star horizontal</button>
                 <button id="vertical" class="center  button-outline button-small">star vertical</button>
-                <button id="coloring" class="center  button-outline button-small">star coloring</button>
-                <button id="scoring" class="center  button-outline button-small">star scoring</button>
+                <button id="coloring" class="center  button-outline button-small">show color</button>
+                <button id="scoring" class="center  button-outline button-small">show scoring</button>
+                <button id="clear" class="center  button-outline button-small">clear</button>
               </div>
             </div>
           </div>

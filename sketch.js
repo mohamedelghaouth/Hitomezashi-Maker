@@ -170,7 +170,7 @@ function coloring(showColor, showScore) {
         animatedColoringRect(sumV, tmpx, tmpy, step, step);
       } 
 
-      if(showScore && (step >= colNumb)) {
+      if(showScore && (step >= 20)) {
         text(sumV, tmpx + (step/2) , tmpy + (step/2));
       }
     }

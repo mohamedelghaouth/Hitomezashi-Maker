@@ -181,16 +181,6 @@ function coloring(showColor, showScore) {
 function animatedColoringRect(sum, x1, y1, x2, y2) {
   let tempY = map(coloringadvance, 0, y1, 0,  y2, 1);
   push()
-  // if(sum === 2){
-  //   stroke(220,220,220)
-  //   fill(220,220,220);
-  // } else if(sum === 0){
-  //   stroke(255,204,255)
-  //   fill(255,204,255);
-  // } else {
-  //   stroke(255,204,153)
-  //   fill(255,204,153);
-  // }
   stroke(colorArray[sum])
   fill(colorArray[sum]);
   rect(x1, y1, x2, tempY);

@@ -20,6 +20,7 @@ canvas {
   display: block;
   padding: 3rem;
   position: sticky;
+  padding-bottom: 0px;
   top: 0px;
   background-color: white;
 }
@@ -97,3 +98,22 @@ canvas {
  .slider input[type=”range”]::-webkit-slider-thumb:hover {
   background:#7E6D57;
  }
+
+ #quote {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 0px;
+}
+
+figcaption {
+  margin-left: 195px;
+  font-weight: bold
+}
+
+.fit-picture {
+  display: block;
+  margin: auto;
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+}

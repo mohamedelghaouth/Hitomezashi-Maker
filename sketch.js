@@ -1,4 +1,17 @@
 
+var colorArray = ['#FFCCFF', '#FFCC99',
+'#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
+'#E6B333', '#3366E6', '#999966', '#99FF99', '#B34D4D',
+'#80B300', '#809900', '#E6B3B3', '#6680B3', '#66991A', 
+'#FF99E6', '#CCFF1A', '#FF1A66', '#E6331A', '#33FFCC',
+'#66994D', '#B366CC', '#4D8000', '#B33300', '#CC80CC', 
+'#66664D', '#991AFF', '#E666FF', '#4DB3FF', '#1AB399',
+'#E666B3', '#33991A', '#CC9999', '#B3B31A', '#00E680', 
+'#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+'#FF3380', '#CCCC00', '#66E64D', '#4D80CC', '#9900B3', 
+'#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']; // length = 52
+var col = 0;
+var colNumb = 2;
 var arrX = Array.from({length: 100}, () => Math.round(Math.random()));
 var arrY = Array.from({length: 100}, () => Math.round(Math.random()));
 var angle = 0;
@@ -137,7 +150,7 @@ function coloring(showColor, showScore) {
     if(showScore && (step >= 20)) {
       text(sumH, tmpx + (step/2) , maxY - (step/2));
     }
-    sumH = ((sumH + arrX[i + 1]) % 2);
+    sumH = ((sumH + arrX[i + 1]) % colNumb);
     tmpArrX.push(sumH);
   }
 
@@ -151,13 +164,13 @@ function coloring(showColor, showScore) {
       }
 
       if(((i % 2) === 0) && (arrY[j] === 1)){
-        sumV = ((sumV + 1) % 2);
+        sumV = ((sumV + 1) % colNumb);
       }
       if(showColor) {
         animatedColoringRect(sumV, tmpx, tmpy, step, step);
       } 
 
-      if(showScore && (step >= 20)) {
+      if(showScore && (step >= colNumb)) {
         text(sumV, tmpx + (step/2) , tmpy + (step/2));
       }
     }
@@ -168,16 +181,18 @@ function coloring(showColor, showScore) {
 function animatedColoringRect(sum, x1, y1, x2, y2) {
   let tempY = map(coloringadvance, 0, y1, 0,  y2, 1);
   push()
-  if(sum === 2){
-    stroke(220,220,220)
-    fill(220,220,220);
-  } else if(sum === 0){
-    stroke(255,204,255)
-    fill(255,204,255);
-  } else {
-    stroke(255,204,153)
-    fill(255,204,153);
-  }
+  // if(sum === 2){
+  //   stroke(220,220,220)
+  //   fill(220,220,220);
+  // } else if(sum === 0){
+  //   stroke(255,204,255)
+  //   fill(255,204,255);
+  // } else {
+  //   stroke(255,204,153)
+  //   fill(255,204,153);
+  // }
+  stroke(colorArray[sum])
+  fill(colorArray[sum]);
   rect(x1, y1, x2, tempY);
   pop();
   coloringadvance += 0.5;

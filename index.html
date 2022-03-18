@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sketch</title>
+    <title>Hitomezashi</title>
 
     <link rel="stylesheet" type="text/css" href="style.css">
     <!-- Google Fonts -->
@@ -27,31 +27,104 @@
         <div class="column column-60">
           <div class="container" id="title">
             <h1>Hitomezashi Pattern</h1>
+            <p>
+              <em>
+                Dans cette série de blogs j’essaie de créer des visuels plus ou moins complexes 
+                et d'expliquer les algorithmes derrière ces visuels.
+              </em>
+              <br>
+              <em>
+               <span style="font-weight: bold;">Outils</span>: html, css, js, p5.js
+              </em>
+              <br>
+              <a href="https://arbitrarilyclose.com/2020/03/29/mathartchallenge-day-14-hitomezashi-stitching-suggested-by-katherine-seaton/" target="_blank">
+                #MathArtChallenge Day 14
+              </a>
+              <hr>
+            </p>
           </div>
           <div class="container" id="content">
-            <h3>Heading 1</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <blockquote id="quote">
+                <p><em>if you don’t want to stitch it on a bedsheet, stitch it on a spreadsheet.</em></p>
+              </blockquote>
+              <figcaption id="reference">-Katie Steckles, <cite>Mobile Numbers: Hitomezashi Stitching</cite></figcaption>
             </p>
-            <h3>Heading 2</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <h3>C'est quoi?</h3>
+            <div class="row">
+              <div class="column ">
+                <p>
+                  Hitomezashi est une variante de Sashiko, une ancienne méthode japonaise de broderie. 
+                  elle permet de créer des décoration très jolies en suivant un algorithme très simple.
+                </p>
+              </div>
+              <div class="column column-60 ">
+                <figure >
+                    <img class="fit-picture" src="./images/images.jpg" alt="Hitomezashi Pattern">
+                </figure>
+              </div>
+            </div>
+            <h3>L’ algorithme</h3>
+            <p style="text-align: justify; text-justify: inter-word;">
+              On commence tout d’abord par générer deux ensembles, composés de 0 et 1, aléatoirement. <br>
+              Un des ensemble sera étalé sur l’axe des abscisses l'autres sur l’axe des ordonnées. <br><br>
+
+              Pour chacune des ordonnées (respectivement abscisses), 
+              si la valeur est égale à zéro on se déplace d’un pas à droit (respectivement en haut) 
+              puis nous traçons un trait horizontal  (respectivement verticale) de la même longueur d’un pas, 
+              puis on se  déplace d’un pas à droite (respectivement en haut)  avant de tracer un deuxième 
+              et ainsi de suite jusqu'à la fin de notre grille.  <br>
+              Si la valeur est égale à un, nous commençons directement par un tracer un trait horizontal (respectivement verticale)
+              de la même longueur d’un pas, puis on se  déplace d’un pas à droite (respectivement en haut) 
+              avant de tracer un deuxième et ainsi de suite.<br><br>
+
+              A la fin de ce processus les différents intersections entre les lignes horizontal et vertical forment un joli dessin 
+              composés de plusieurs graphe qui peuvent être distingués avec deux couleurs différant <br><br>
+
+              jeter un coup d’oeil sur 
+              <a href="https://www.youtube.com/watch?v=JbfhzlMk2eY" target="_blank">
+                la vidéo de numberphile
+              </a> 
+              pour plus de compréhension.
+
+
             </p>
-            <h3>Heading 3</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <h3>Coloration</h3>
+            <p style="text-align: justify; text-justify: inter-word;">
+              En colorant quelques exemples de Hitomezashi pattern à la main,
+              on remarque que sur chaque colonne (respectivement ligne) la couleur change à chaque fois qu’on rencontre 
+              un trait ho horizontal (respectivement verticale). <br><br>
+
+              De ça on peut déduire un algorithme simple on commence d’abord par colorer la première ligne horizontale, 
+              puis sur chaque colonne on change de couleur quand on rencontre un trait horizontal.<br><br>
+              
+              Pour colorer aussi la première ligne on remarque aussi que la couleur change quand on passe par un trait vertical
             </p>
-            <h3>Heading 4</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <h3>Links</h3>
+            <ul>
+              <li>
+                <a href="https://grossack.site/2021/12/08/hitomezashi-maker" target="_blank">
+                  A Hitomezashi Maker
+                </a>
+              </li>
+              <li>
+                <a href="https://aperiodical.com/2020/12/mobile-numbers-hitomezashi-stitching/" target="_blank">
+                  Mobile Numbers: Hitomezashi Stitching
+                </a>
+              </li>
+              <li>
+                <a href="https://arbitrarilyclose.com/2020/03/29/mathartchallenge-day-14-hitomezashi-stitching-suggested-by-katherine-seaton/" target="_blank">
+                  MathArtChallenge
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="column">
           <div class="main">
             <div class="slider">
               <p id="rangeLabel">step</p>
-              <input type="range" min="20" max="80" value="40" class="slider" step="20" id="myRange">
+              <input type="range" min="20" max="80" value="40" class="slider" step="10" id="myRange">
               <p id="rangeValue"><span id="demo"></span></p>
             </div>
             <div id="sketch"></div>

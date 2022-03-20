@@ -1,3 +1,12 @@
+const fonSize = new Map([
+  [20, {size:10, decalageH:4, decalageV: 11}],
+  [30, {size:12, decalageH:6, decalageV: 13}],
+  [40, {size:14, decalageH:8, decalageV: 15}],
+  [50, {size:16, decalageH:10, decalageV: 17}],
+  [60, {size:16, decalageH:12, decalageV: 19}],
+  [70, {size:16, decalageH:14, decalageV: 21}],
+  [80, {size:16, decalageH:16, decalageV: 22}],
+]);
 
 var colorArray = ['#FFCCFF', '#FFCC99',
 '#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', 
@@ -44,8 +53,15 @@ function draw() {
    if(dovertical) {
     vertical();
   } 
-   if(docoloring || doscoring) {
-    coloring(docoloring, doscoring);
+   if(docoloring || doscoring || doMcoloring) {
+     if(docoloring){
+      coloring(docoloring, doscoring);
+     }
+
+     if(doMcoloring){
+      multipleColoring(doMcoloring, doscoring);
+     }
+
     horizontal();
     vertical();
   }
@@ -148,7 +164,11 @@ function coloring(showColor, showScore) {
     } 
 
     if(showScore && (step >= 20)) {
-      text(sumH, tmpx + (step/2) , maxY - (step/2));
+      let tmp = fonSize.get(step);
+      push()
+      textSize(tmp.size);
+      text(sumH, tmpx + tmp.decalageH , maxY - tmp.decalageV);
+      pop();
     }
     sumH = ((sumH + arrX[i + 1]) % colNumb);
     tmpArrX.push(sumH);
@@ -160,7 +180,7 @@ function coloring(showColor, showScore) {
     for (var j = 1; j <numb; j += 1) {
       tmpy = maxY - (j + 1)*step
       if(((i % 2) === 1) && (arrY[j] === 0)){
-        sumV = ((sumV + 1) % 2);
+        sumV = ((sumV + 1) % colNumb);
       }
 
       if(((i % 2) === 0) && (arrY[j] === 1)){
@@ -171,11 +191,135 @@ function coloring(showColor, showScore) {
       } 
 
       if(showScore && (step >= 20)) {
-        text(sumV, tmpx + (step/2) , tmpy + (step/2));
+        let tmp = fonSize.get(step);
+        push()
+        textSize(tmp.size);
+        text(sumV, tmpx + tmp.decalageH , tmpy + tmp.decalageV);
+        pop();
       }
     }
   }
-  
+}
+
+
+function multipleColoring(showColor, showScore) {
+
+  let cellArr = creatCells();
+  let sum = 0;
+  cellArr.forEach(cell => {
+    if(!cell.visited){
+      
+      if (cell.score == -1) {
+        sum += 1;
+        cell.score = sum;
+      }
+      let tmpArr = [];
+      tmpArr.push(cell);
+      while (tmpArr.length > 0) {
+        cell = tmpArr.shift();
+        cell.color = colorArray[sum % colNumb]
+        cell.visited = true;
+        if(showColor) {
+          animatedColoringRect(sum % colNumb, cell.x, cell.y, step, step);
+        } 
+    
+        if(showScore && (step >= 20)) {
+          let tmp = fonSize.get(step);
+          push()
+          textSize(tmp.size);
+          text(cell.score, cell.x + tmp.decalageH , cell.y + tmp.decalageV);
+          pop();
+        }
+
+        cell.neighbors.filter(neighbor => neighbor != null).forEach(neighbor => {
+          if(!neighbor.visited){
+            neighbor.score = cell.score;
+            neighbor.visited = true;
+            tmpArr.push(neighbor);
+          }
+        });
+      }
+    }
+  });
+}
+
+function creatCells(){
+  let cellArr = new Array(numb);
+  let tmpArr = [];
+
+  let tmpy = 0;
+  let tmpx = 0;
+
+  for (var i = 0; i <cellArr.length; i += 1) {
+    cellArr[i] = new Array(numb);
+  }
+
+  // create cells
+  for (var i = 0; i <numb; i += 1) {
+    tmpx = i*step + 40;
+    for (var j = 0; j <numb; j += 1) {
+      tmpy = maxY - (j + 1)*step
+      cellArr[i][j] = new Cell(tmpx, tmpy)
+    }
+  }
+
+
+  // Link cells
+  let cell;
+  let tmpCell;
+  for (var i = 0; i <numb; i += 1) {
+    tmpx = i*step + 40;
+    for (var j = 0; j <numb; j += 1) {
+      tmpy = maxY - (j + 1)*step
+      cell = cellArr[i][j]
+      if(i - 1 >= 0){
+        if( ( (arrX[i] == 0) && ( ((j + 1) % 2) == 1) ) 
+            || 
+            ( (arrX[i] == 1) && ( ((j + 1) % 2) == 0) ) 
+          )
+          {
+            tmpCell = cellArr[i - 1][j]
+            cell.setNeighbor(1, tmpCell)
+            tmpCell.setNeighbor(3, cell)
+          }
+      }
+      if((i + 1 < numb) ){
+        if( ( (arrX[i + 1] == 0) && ( ((j + 1) % 2) == 1) ) 
+            || 
+            ( (arrX[i + 1] == 1) && ( ((j + 1) % 2) == 0) ) 
+          )
+          {
+            tmpCell = cellArr[i + 1][j]
+            cell.setNeighbor(3, tmpCell)
+            tmpCell.setNeighbor(1, cell)
+          }
+      }
+      if(j - 1 >= 0 ){
+        if( ( ((i + 1) % 2) === 1) && (arrY[j] === 0) 
+            || 
+            ( ((i + 1) % 2) === 0) && (arrY[j] === 1) 
+          )
+          {
+            tmpCell = cellArr[i][j - 1]
+            cell.setNeighbor(2, tmpCell)
+            tmpCell.setNeighbor(0, cell)
+          }
+      }
+      if(j + 1 < numb ){
+        if( ( ((i + 1) % 2) === 1) && (arrY[j + 1] === 0) 
+            || 
+            ( ((i + 1) % 2) === 0) && (arrY[j + 1] === 1) 
+          )
+          {
+            tmpCell = cellArr[i][j + 1]
+            cell.setNeighbor(0, tmpCell)
+            tmpCell.setNeighbor(2, cell)
+          }
+      }
+      tmpArr.push(cell);
+    }
+  }
+  return tmpArr;
 }
 
 function animatedColoringRect(sum, x1, y1, x2, y2) {

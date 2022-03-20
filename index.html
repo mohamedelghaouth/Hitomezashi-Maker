@@ -74,12 +74,14 @@
               puis nous traçons un trait horizontal  (respectivement verticale) de la même longueur d’un pas, 
               puis on se  déplace d’un pas à droite (respectivement en haut)  avant de tracer un deuxième 
               et ainsi de suite jusqu'à la fin de notre grille.  <br>
-              Si la valeur est égale à un, nous commençons directement par un tracer un trait horizontal (respectivement verticale)
+              Si la valeur est égale à un, nous commençons directement par
+              tracer un trait horizontal (respectivement verticale)
               de la même longueur d’un pas, puis on se  déplace d’un pas à droite (respectivement en haut) 
               avant de tracer un deuxième et ainsi de suite.<br><br>
 
-              A la fin de ce processus les différents intersections entre les lignes horizontal et vertical forment un joli dessin 
-              composés de plusieurs graphe qui peuvent être distingués avec deux couleurs différant <br><br>
+              A la fin de ce processus les différents intersections entre les lignes horizontal 
+              et vertical forment un joli dessin composés de plusieurs graphe
+              qui peuvent être distingués avec deux couleurs différant <br><br>
 
               jeter un coup d’oeil sur 
               <a href="https://www.youtube.com/watch?v=JbfhzlMk2eY" target="_blank">
@@ -90,15 +92,25 @@
 
             </p>
             <h3>Coloration</h3>
+            <h4>Avec deux couleurs seulement</h4>
             <p style="text-align: justify; text-justify: inter-word;">
               En colorant quelques exemples de Hitomezashi pattern à la main,
-              on remarque que sur chaque colonne (respectivement ligne) la couleur change à chaque fois qu’on rencontre 
-              un trait ho horizontal (respectivement verticale). <br><br>
+              on remarque que sur chaque colonne (respectivement ligne) la couleur change
+              à chaque fois qu’on rencontre un trait horizontal (respectivement verticale). <br><br>
 
-              De ça on peut déduire un algorithme simple on commence d’abord par colorer la première ligne horizontale, 
-              puis sur chaque colonne on change de couleur quand on rencontre un trait horizontal.<br><br>
+              De ça on peut déduire un algorithme simple on commence d’abord par 
+              colorer la première ligne horizontale, puis sur chaque colonne on change de couleur
+              quand on rencontre un trait horizontal.<br><br>
               
-              Pour colorer aussi la première ligne on remarque aussi que la couleur change quand on passe par un trait vertical
+              Pour colorer la première ligne on remarque aussi que la couleur change 
+              quand on passe par un trait vertical
+            </p>
+            <h4>Avec plusieurs couleurs</h4>
+            <p style="text-align: justify; text-justify: inter-word;">
+              Pour colorer chaque sous-pattern d'une avec une couleur différant  
+              la seule solution que j'ai pu trouver est de représenter chaque petit carré 
+              par une classe contenant tous ces information(cordonnées, voisines), 
+              puis faire une recherche en largeur  pour détecter tous les sous-patterns.
             </p>
             <h3>Links</h3>
             <ul>
@@ -129,16 +141,17 @@
           <div class="main">
             <div class="slider">
               <p id="rangeLabel">step</p>
-              <input type="range" min="20" max="80" value="40" class="slider" step="10" id="myRange">
+              <input type="range" min="20" max="80" value="80" class="slider" step="10" id="myRange">
               <p id="rangeValue"><span id="demo"></span></p>
             </div>
             <div id="sketch"></div>
             <div>
               <div id="buttons">
-                <button id="horizontal" class="center  button-outline button-small">star horizontal</button>
-                <button id="vertical" class="center  button-outline button-small">star vertical</button>
-                <button id="coloring" class="center  button-outline button-small">show color</button>
-                <button id="scoring" class="center  button-outline button-small">show scoring</button>
+                <button id="horizontal" class="center  button-outline button-small"> horizontal</button>
+                <button id="vertical" class="center  button-outline button-small"> vertical</button>
+                <button id="coloring" class="center  button-outline button-small">2 color</button>
+                <button id="multiple_coloring" class="center  button-outline button-small">multiple color</button>
+                <button id="scoring" class="center  button-outline button-small"> scoring</button>
                 <button id="clear" class="center  button-outline button-small">clear</button>
               </div>
             </div>
@@ -147,6 +160,7 @@
       </div>
     </div>
     <script src="app.js"></script>
+    <script src="cell.js"></script>
     <script src="sketch.js"></script>
   </body>
 </html>
